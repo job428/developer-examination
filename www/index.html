@@ -3,16 +3,124 @@
 
 <head>
     <meta charset="utf-8" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"
+        type="text/css" />
     <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <div class="content-page">
+
+    <div class="content">
         <div class="content" id="content">
-            <div class="container-fluid">
+            <div class="content">
                 <br>
+                <table id="itemTable" class="table" data-pagination="true" data-page-last="true">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="content text-center">
+                <button type="button" class="btn btn-success btn-lg mx-auto" data-bs-toggle="modal" data-bs-target="#itemModal">
+                   >> Add Item <<
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Modal for adding item -->
+    <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="itemModalLabel">Add/Update Item</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-2">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter name" />
+                        </div>
+                        <div class="mb-2">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control" id="price" placeholder="Enter price" />
+                        </div>
+                        <div class="mb-2">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" placeholder="Enter quantity" />
+                        </div>
+                        <div class="mb-2">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" rows="3"
+                                placeholder="Enter description"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="insertItem()">
+                            Insert
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal for editing item -->
+    <div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="editItemModalLabel" aria-hidden="true">
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editItemModalLabel">Edit Item</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input type="hidden" id="editItemId" />
+                        <div class="mb-2">
+                            <label for="editName">Name</label>
+                            <input type="text" class="form-control" id="editName" placeholder="Enter name" />
+                        </div>
+                        <div class="mb-2">
+                            <label for="editPrice">Price</label>
+                            <input type="number" class="form-control" id="editPrice" placeholder="Enter price" />
+                        </div>
+                        <div class="mb-2">
+                            <label for="editQuantity">Quantity</label>
+                            <input type="number" class="form-control" id="editQuantity" placeholder="Enter quantity" />
+                        </div>
+                        <div class="mb-2">
+                            <label for="editDescription">Description</label>
+                            <textarea class="form-control" id="editDescription" rows="3"
+                                placeholder="Enter description"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="updateItem()">
+                            Update
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
