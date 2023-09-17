@@ -1,32 +1,28 @@
 let endpoint = 'http://localhost:3000';
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize DataTable
     $('#itemTable').DataTable();
 
-    // Fetch and render data in the table
     renderTable();
 
     // Handle item click to open the modal
     $('#itemTable tbody').on('click', 'tr', function () {
         const table = $('#itemTable').DataTable();
-        const data = table.row(this).data(); // Use DataTable's API to get row data
+        const data = table.row(this).data(); 
 
         if (data) {
             // Check if data is defined
-            const itemId = data[0]; // Assuming the ID is in the first column
+            const itemId = data[0]; 
             openViewModal(itemId);
         }
     });
 
     // Handle item click to open the Edit modal
-
     $('#itemTable tbody').on('click', 'button.btn-primary', function () {
         const table = $('#itemTable').DataTable();
-        const data = table.row($(this).closest('tr')).data(); // Use DataTable's API to get row data
+        const data = table.row($(this).closest('tr')).data(); 
 
         if (data) {
-            // Check if data is defined
             const itemId = data[0];
             const itemName = data[1];
             const itemPrice = data[2];
@@ -48,11 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 const openEditModal = (itemId) => {
-    // Fetch item details by ID from the API using the fetch API
     fetch(endpoint + '/get_item_by_id?_id=' + itemId)
         .then(response => response.json())
         .then(data => {
-            // Populate the edit modal with item details
             if (data.status === 'success') {
                 const item = data.data;
                 const editModal = $('#editItemModal');
@@ -70,11 +64,9 @@ const openEditModal = (itemId) => {
 };
 
 const renderTable = () => {
-    // Fetch data from the API using the fetch API
     fetch(endpoint + '/get_item')
         .then(response => response.json())
         .then(data => {
-            // Render data in the table
             if (data.status === '200') {
                 const items = data.data;
                 const table = $('#itemTable').DataTable();
@@ -82,7 +74,6 @@ const renderTable = () => {
                 items.forEach(item => {
 
                     const EditButton = '<button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editItemModal" >Edit</button>';
-                    // const DeleteButton = '<button class="btn btn-danger">Delete</button>';
                     table.row.add([item._id, item.name, item.price, item.quantity, item.description, EditButton]).draw();
                 });
                 var Lasttable = document.getElementById('itemTable');
@@ -100,7 +91,6 @@ const renderTable = () => {
 };
 
 const insertItem = () => {
-    // Send a POST request to insert item data
     var name = document.getElementById("name").value;
     var price = document.getElementById("price").value;
     var quantity = document.getElementById("quantity").value;
@@ -120,7 +110,6 @@ const insertItem = () => {
         },
     }).then(response => response.json())
         .then(data => {
-            // Handle the response from the server (e.g., show success message)
             console.log('data')
             console.log(data)
             if (data.status === '200') {
@@ -129,7 +118,6 @@ const insertItem = () => {
                 clearModalInsert()
                 renderTable()
 
-                // Optionally, you can clear the form or update the table
             } else {
                 alert('Failed to insert item: ' + JSON.stringify(data));
             }
@@ -139,7 +127,7 @@ const insertItem = () => {
         });
 };
 
-// Function to clear input fields in the modal
+// Function to clear input fields in the clearModalInsert
 const clearModalInsert = () => {
     document.getElementById('name').value = '';
     document.getElementById('price').value = '';
@@ -147,7 +135,7 @@ const clearModalInsert = () => {
     document.getElementById('description').value = '';
 }
 
-// Function to clear input fields in the modal
+// Function to clear input fields in the clearModalEdit
 const clearModalEdit = () => {
     document.getElementById('editItemId').value = '';
     document.getElementById('editName').value = '';
@@ -158,7 +146,6 @@ const clearModalEdit = () => {
 
 
 const updateItem = (itemId, formData) => {
-    // Send a POST request to update item data by id
     var id = document.getElementById("editItemId").value;
     var name = document.getElementById("editName").value;
     var price = document.getElementById("editPrice").value;
@@ -182,13 +169,11 @@ const updateItem = (itemId, formData) => {
     })
         .then(response => response.json())
         .then(data => {
-            // Handle the response from the server (e.g., show success message)
             if (data.status === '200') {
                 alert('Item updated successfully');
                 $("#editItemModal").modal("hide");
                 clearModalEdit()
                 renderTable()
-                // Optionally, you can clear the form or update the table
             } else {
                 alert('Failed to update item');
             }
@@ -199,11 +184,9 @@ const updateItem = (itemId, formData) => {
 };
 
 const openViewModal = (itemId) => {
-    // Fetch item details by ID from the API using the fetch API
     fetch(endpoint + '/get_item_by_id?_id=' + itemId)
         .then(response => response.json())
         .then(data => {
-            // Populate the modal with item details
             if (data.status === 'success') {
                 const item = data.data;
                 const modal = $('#viewItemModal');
